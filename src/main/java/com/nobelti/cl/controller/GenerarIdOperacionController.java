@@ -2,6 +2,7 @@ package com.nobelti.cl.controller;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,12 @@ public class GenerarIdOperacionController {
 	@Autowired
 	private ProyectoRepository repoProyecto;
 	
+	//PROYECTOS
+	@GetMapping("/proyect/listar")
+	public List<Proyecto> listarProyectos(){
+		return  repoProyecto.findAll();
+	}
+
 	@GetMapping("/project/last")
 	public Proyecto traerUltimoIdProyecto() {
 		Proyecto ultimoProyectoRegistrado = repoProyecto.findTopByOrderByIdProjectDesc();
@@ -58,6 +65,12 @@ public class GenerarIdOperacionController {
 		
 		return response;
 	}
+	//OPERACIONES
+	@GetMapping("/operation/listar")
+	public List<Operacion> listarOperaciones(){
+		return  repoOperacion.findAll();
+	}
+	
 	@GetMapping("/operation/last")
 	public Operacion traerUltimoIdOperacion() {
 		Operacion ultimoProyectoRegistrado = repoOperacion.findTopByOrderByIdOperationDesc();
@@ -84,6 +97,12 @@ public class GenerarIdOperacionController {
 		}
 		
 		return response;
+	}
+	
+	
+	@GetMapping("/operation")
+	public List<Operacion> traerOperacionPorProyecto(@Param("id_proyecto") int id_proyecto){
+		return repoOperacion.findAllByIdProject(id_proyecto);
 	}
 	
 	private Date fechaActual()
