@@ -7,12 +7,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nobelti.cl.model.CommonResponse;
 import com.nobelti.cl.model.Operacion;
@@ -25,6 +28,19 @@ import com.nobelti.cl.repository.ProyectoRepository;
 @RestController
 @RequestMapping("/dal/track")
 public class GenerarIdOperacionController {
+
+	/* Spring Security (Cors) */
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
+        	}
+    	};
+	}
 	
 	Logger logger = LoggerFactory.getLogger(GenerarIdOperacionController.class);
 	
