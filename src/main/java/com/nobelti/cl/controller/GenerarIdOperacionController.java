@@ -3,6 +3,7 @@ package com.nobelti.cl.controller;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +51,22 @@ public class GenerarIdOperacionController {
 	private ProyectoRepository repoProyecto;
 	
 	//PROYECTOS
-	@GetMapping("/proyect/listar")
+	@GetMapping("/project/listar")
 	public List<Proyecto> listarProyectos(){
 		return  repoProyecto.findAll();
+	}
+
+	@GetMapping("/project")
+	public Proyecto listarProyectos(@Param("id_proyecto")int id_proyecto){
+		Optional<Proyecto> proyecto = repoProyecto.findById(id_proyecto);
+		Proyecto nullProject = new Proyecto();
+		nullProject.setIdProject(-1);
+		if(proyecto.isPresent()){
+			return proyecto.get();
+		}else{
+			return nullProject;
+		}
+		
 	}
 
 	@GetMapping("/project/last")
